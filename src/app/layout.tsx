@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "../config/font";
-import { TopMenu } from "@/components";
-
-
 
 export const metadata: Metadata = {
   title: "Teslo | Shop",
@@ -20,7 +17,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
-        <TopMenu />
+        
         {children}
       </body>
     </html>
