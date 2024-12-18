@@ -1,6 +1,7 @@
 import { titleFont } from "@/config/font";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
+import { ProductSlideshow, QuantitySelector, SizeSelector } from '@/components'
 
 interface Props {
   params: {
@@ -20,7 +21,13 @@ export default function ProductPage({ params }: Props) {
   return (
     <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
       {/**slideshow */}
-      <div className="col-span-1 md:col-span-2">hohl</div>
+      <div className="col-span-1 md:col-span-2">
+        <ProductSlideshow 
+          title={product.title}
+          images={product.images}
+          
+        />
+      </div>
       {/**description */}
       <div className="col-span-1 px-5">
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
@@ -28,7 +35,11 @@ export default function ProductPage({ params }: Props) {
         </h1>
         <p className="text-lg mb-5">${product.price}</p>
         {/* tallas */}
+        <SizeSelector
+          seletedSize={product.sizes[0]}
+          availableSize={product.sizes} />
         {/* cantidad */}
+        <QuantitySelector quantity={2}/>
         {/* boton */}
         <button className="btn-primary my-5">
           Agregr al carrito
