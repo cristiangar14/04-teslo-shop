@@ -21,7 +21,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     await getPaginatedProductsWithImages({ page: Number(page), gender: gender as Gender });
 
   if (!products.length) {
-    redirect("/");
+    redirect(`/gender/${gender}`);
   }
 
   const labels: Record<Gender, string> = {
