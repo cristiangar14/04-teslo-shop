@@ -13,13 +13,11 @@ const productsInCart = [
 ]
 
 interface Props {
-  params: {
-    id: string
-  }
+  params: Promise<{ id: string }> 
 }
 
-export default function OrderPage({ params }:Props) {
-  const { id } = params;
+export default async function OrderPage({ params }:Props) {
+  const { id } = await params;
 
   // TODO: varificar auth
   // Todo: redirect

@@ -1,22 +1,18 @@
 // import { notFound } from "next/navigation";
-
+export const revalidate = 60;
 import { getPaginatedProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, Title } from "@/components";
 import { Gender } from "@prisma/client";
 import { redirect } from "next/navigation";
 
-interface Props {
-  params: {
-    gender: string;
-  };
-  searchParams: {
-    page?: string;
-  };
-}
+interface Props {  
+  params: Promise<{ gender: string }>  
+  searchParams: Promise<{ page?: string }>
+  } 
 
 export default async function CategoryPage({ params, searchParams }: Props) {
-  const { gender } = params;
-  const { page } = searchParams;
+  const { gender } = await params;
+  const { page } = await searchParams;
   const { products, totalPages } =
     await getPaginatedProductsWithImages({ page: Number(page), gender: gender as Gender });
 
@@ -24,7 +20,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     redirect(`/gender/${gender}`);
   }
 
-  const labels: Record<Gender, string> = {
+  const labels: Record<string, string> = {
     men: "Hombres",
     women: "Mujeres",
     kid: "Niños",
@@ -37,7 +33,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   return (
     <>
       <Title
-        title={`Articulos para ${labels[gender as Gender]}`}
+        title={`Articulos para ${labels[gender]}`}
         subtitle="Todos los productos"
         className="mb-2"
       />

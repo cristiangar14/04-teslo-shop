@@ -4,14 +4,12 @@ import { notFound } from "next/navigation";
 import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector } from '@/components'
 
 interface Props {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>  
 }
 
 
-export default function ProductPage({ params }: Props) {
-  const { slug } = params
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
   const product = initialData.products.find(product => product.slug === slug);
 
   if (!product) {
