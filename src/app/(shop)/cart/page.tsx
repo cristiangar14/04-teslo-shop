@@ -1,14 +1,9 @@
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
+import { Title } from "@/components";
 import Link from "next/link";
+import { ProductsInCart } from "./ui/ProductsInCart";
+import { OrderSummary } from "./ui/OrderSummary";
 // import { redirect } from "next/navigation";
 
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-]
 
 export default function CartPage() {
 
@@ -30,26 +25,7 @@ export default function CartPage() {
           
 
           {/* items */}
-          {
-            productsInCart.map((product) => (
-              <div className="flex mb-5" key={product.slug}>
-                <Image
-                  src={`/products/${product.images[0]}`}
-                  alt={product.title}
-                  width={100}
-                  height={100}
-                  className="mr-5 rounded h-[100px]"
-                />
-                <div className="">
-                  <p>{ product.title }</p>
-                  <p>${ product.price.toFixed(2) }</p>
-                  <QuantitySelector quantity={1} />
-
-                  <button className="underline mt-3">Remover</button>
-                </div>
-              </div>
-            ))
-          }
+         <ProductsInCart />
 
           </div>
 
@@ -57,20 +33,7 @@ export default function CartPage() {
 
           <div className="bg-white rounded-xl shadow-xl p-7 h-fit">
             <h2 className="text-2xl mb-2">Resumen de orden</h2>
-            <div className="grid grid-cols-2">
-              <span>no. Productos</span>
-              <span className="text-right">3 articulos</span>
-
-
-              <span>Subtotal</span>
-              <span className="text-right">$ 100</span>
-
-              <span>Impuestos (15%)</span>
-              <span className="text-right">$ 15</span>
-
-              <span className="text-2xl mt-5">Total:</span>
-              <span className="text-right text-2xl mt-5">$115</span>
-            </div>
+            <OrderSummary />
             <div className="mt-5 mb-2 w-full">
               <Link
               className="flex btn-primary justify-center"
