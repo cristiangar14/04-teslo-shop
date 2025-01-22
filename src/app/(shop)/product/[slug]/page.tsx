@@ -1,5 +1,7 @@
 export const revalidate = 604800;
 
+import type { Metadata } from 'next'
+
 import { titleFont } from "@/config/font";
 import { notFound } from "next/navigation";
 import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector, StockLabel } from '@/components'
@@ -9,6 +11,28 @@ interface Props {
   params: Promise<{ slug: string }>  
 }
 
+export async function generateMetadata(
+  { params }: Props,
+): Promise<Metadata> {
+  // read route params
+  const slug = (await params).slug
+ 
+  // fetch data
+  const product = await getProductBySlug(slug);
+ 
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+ 
+  return {
+    title: product?.title ?? 'Producto no encontrado',
+    description: product?.description ?? 'Este producto no se encuentra disponible',
+    openGraph: {
+      title: product?.title ?? 'Producto no encontrado',
+      description: product?.description ?? 'Este producto no se encuentra disponible',
+      images: [`/products/${product.images[0]}`],
+    },
+  }
+}
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
