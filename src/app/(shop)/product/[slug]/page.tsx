@@ -4,8 +4,9 @@ import type { Metadata } from 'next'
 
 import { titleFont } from "@/config/font";
 import { notFound } from "next/navigation";
-import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector, StockLabel } from '@/components'
+import { ProductMobileSlideshow, ProductSlideshow, StockLabel } from '@/components'
 import { getProductBySlug } from "@/actions";
+import { AddTocart } from './iu/AddTocart';
 
 interface Props {
   params: Promise<{ slug: string }>  
@@ -68,17 +69,8 @@ export default async function ProductPage({ params }: Props) {
           {product.title}
         </h1>
         <p className="text-lg mb-5">${product.price}</p>
-        {/* tallas */}
-        <SizeSelector
-          seletedSize={product.sizes[0]}
-          availableSize={product.sizes} />
-        {/* cantidad */}
-        <QuantitySelector quantity={2}/>
-        {/* boton */}
-        <button className="btn-primary my-5">
-          Agregr al carrito
-        </button>
-
+        
+        <AddTocart product={product}/>
         {/* Descripcion */}
         <h3 className="font-bold text-sm">Descripcion</h3>
         <p className="font-light">{product.description}</p>
