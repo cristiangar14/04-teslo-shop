@@ -50,8 +50,6 @@ async function main() {
   await prisma.user.createMany({
     data: users
   });
-
-
   console.log('Seed ejecutado correctamente')
 };
 
