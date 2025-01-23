@@ -3,15 +3,25 @@
 import { authenticate } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import { IoInformationOutline } from "react-icons/io5";
 
 
 export const LoginForm = () => {
-  const [errorMessage, formAction, isPending] = useActionState(
+  const [message, formAction, isPending] = useActionState(
     authenticate,
     undefined,
   );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (message === 'success') {
+      router.push('/');
+    }
+
+  }, [message]);
+
   return (
     <form action={formAction} className="flex flex-col">
       <label htmlFor="email">Correo electrónico</label>
@@ -27,7 +37,7 @@ export const LoginForm = () => {
         type="password"
         name="password"
       />
-      {errorMessage && <div className="mb-2 flex">
+      { (message && message != 'success') && <div className="mb-2 flex">
         <IoInformationOutline size={5} className="text-red-500 w-5 h-5" />
         <p className="text-sm text-red-500">Credenciales invalidas</p>
       </div>}
