@@ -2,13 +2,18 @@
 
 import { authenticate } from "@/actions";
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
+// import { useFormState } from "react-dom";
 
 export const LoginForm = () => {
-  const [state, dispach] = useFormState(authenticate, undefined);
-  console.log(state);
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined,
+  );
   return (
-    <form action={dispach} className="flex flex-col">
+    <form action={formAction} className="flex flex-col">
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+      {isPending && <p className="text-yellow-500">Loading...</p>}
       <label htmlFor="email">Correo electrónico</label>
       <input
         className="px-5 py-2 border bg-gray-200 rounded mb-5"

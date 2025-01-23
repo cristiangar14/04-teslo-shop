@@ -1,6 +1,9 @@
 import NextAuth, {type  NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
+import prisma from "./lib/prisma";
+import bcryptjs from "bcryptjs";
+
 
 export const authConfig: NextAuthConfig = {
   pages: {
@@ -18,9 +21,20 @@ export const authConfig: NextAuthConfig = {
 
         const { email, password } = parsedCredentials.data;
 
-        console.log({ email, password });
+        const user = await prisma.user.findFirst({
+          where: { email: email.toLowerCase() },
+        });
 
-        return null;
+        if (!user) return null;
+
+        if (!bcryptjs.compareSync(password, user.password)) {
+          return null;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password: _, ...userWithoutPassword } = user;
+
+        return userWithoutPassword;
       },
     }),
   ]
