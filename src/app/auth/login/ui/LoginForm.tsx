@@ -1,9 +1,11 @@
 "use client";
 
 import { authenticate } from "@/actions";
+import clsx from "clsx";
 import Link from "next/link";
 import { useActionState } from "react";
-// import { useFormState } from "react-dom";
+import { IoInformationOutline } from "react-icons/io5";
+
 
 export const LoginForm = () => {
   const [errorMessage, formAction, isPending] = useActionState(
@@ -12,8 +14,6 @@ export const LoginForm = () => {
   );
   return (
     <form action={formAction} className="flex flex-col">
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      {isPending && <p className="text-yellow-500">Loading...</p>}
       <label htmlFor="email">Correo electrónico</label>
       <input
         className="px-5 py-2 border bg-gray-200 rounded mb-5"
@@ -27,8 +27,22 @@ export const LoginForm = () => {
         type="password"
         name="password"
       />
+      {errorMessage && <div className="mb-2 flex">
+        <IoInformationOutline size={5} className="text-red-500 w-5 h-5" />
+        <p className="text-sm text-red-500">Credenciales invalidas</p>
+      </div>}
 
-      <button type="submit" className="btn-primary">
+      {isPending && <p className="text-yellow-500">Loading...</p>}
+
+      <button 
+        disabled={isPending}
+        aria-disabled={isPending}
+        type="submit" 
+        className={clsx({
+          "btn-primary": !isPending,
+          "btn-disabled": isPending,
+        }
+        )}>
         Ingresar
       </button>
 
