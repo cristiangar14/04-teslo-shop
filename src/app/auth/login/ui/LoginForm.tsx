@@ -3,7 +3,6 @@
 import { authenticate } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { IoInformationOutline } from "react-icons/io5";
 
@@ -13,11 +12,10 @@ export const LoginForm = () => {
     authenticate,
     undefined,
   );
-  const router = useRouter();
 
   useEffect(() => {
     if (message === 'success') {
-      router.push('/');
+      window.location.replace('/');
     }
 
   }, [message]);

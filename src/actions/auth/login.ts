@@ -25,3 +25,8 @@ export async function authenticate(
     throw error;
   }
 }
+
+export const login = async (email: string, password: string) => {
+  await signIn('credentials', {email, password}, {redirectTo: '/'});
+  
+};

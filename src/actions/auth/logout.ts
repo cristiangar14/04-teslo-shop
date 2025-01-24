@@ -2,6 +2,9 @@
 
 import { signOut } from "@/auth.config";
 
-export const logout = async () => {
-  await signOut();
+interface Props {
+  redirectPath?: string;
+}
+export const logout = async ({redirectPath}:Props) => {
+  await signOut({ redirectTo: redirectPath ?? '/' });
 };

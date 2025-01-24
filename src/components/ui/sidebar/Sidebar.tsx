@@ -23,9 +23,9 @@ export const Sidebar = () => {
   const isAdmin = session?.user?.role === "admin";
 
   const onLogout = async () => {
-    await logout();
-    window.location.reload();
+    await logout({});
     closeSideMenu();
+    window.location.reload();
   };
 
   return (
