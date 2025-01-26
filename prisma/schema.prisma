@@ -78,7 +78,7 @@ model User {
   image         String?
 }
 
-model Countries {
-  id   String @unique @id
+model Country {
+  id   String @id
   name String
 }
