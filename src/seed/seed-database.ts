@@ -58,7 +58,6 @@ async function main() {
   console.log('Seed ejecutado correctamente')
 };
 
-
 (()=>{
 
   if ( process.env.NODE_ENV === 'production' ) return;

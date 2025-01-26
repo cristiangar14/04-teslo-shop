@@ -1,7 +1,12 @@
 "use client";
 
+import { Country } from "@/interfaces";
 import clsx from "clsx";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+interface Props {
+  countries: Country[];
+}
 
 type FormInputs = {
   firstName: string;
@@ -15,11 +20,11 @@ type FormInputs = {
   rememberAddress: boolean;
 };
 
-export const AddressForm = () => {
+export const AddressForm = ({ countries }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { isValid }
+    formState: { isValid },
   } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
@@ -86,9 +91,17 @@ export const AddressForm = () => {
 
       <div className="flex flex-col mb-2">
         <span>País</span>
-        <select {...register("country", { required: true })} className="p-2 border rounded-md bg-gray-200">
+        <select
+          {...register("country", { required: true })}
+          className="p-2 border rounded-md bg-gray-200"
+        >
           <option value="">[ Seleccione ]</option>
-          <option value="CRI">Costa Rica</option>
+
+          {countries.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -102,7 +115,6 @@ export const AddressForm = () => {
       </div>
 
       <div className="flex flex-col mb-2 sm:mt-1">
-       
         <div className="inline-flex items-center mb-10">
           <label
             className="relative flex cursor-pointer items-center rounded-full p-3"
@@ -137,8 +149,8 @@ export const AddressForm = () => {
           disabled={!isValid}
           type="submit"
           className={clsx({
-            'btn-primary': isValid,
-            'btn-disabled': !isValid
+            "btn-primary": isValid,
+            "btn-disabled": !isValid,
           })}
         >
           Siguiente
