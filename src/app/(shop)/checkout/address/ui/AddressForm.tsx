@@ -1,43 +1,92 @@
 "use client";
 
-import Link from "next/link";
+import clsx from "clsx";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type FormInputs = {
+  firstName: string;
+  lastName: string;
+  address: string;
+  address2: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  phone: string;
+  rememberAddress: boolean;
+};
 
 export const AddressForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid }
+  } = useForm<FormInputs>();
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    console.log(data);
+  };
   return (
-    <form className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2"
+    >
       <div className="flex flex-col mb-2">
         <span>Nombres</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("firstName", { required: true })}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2">
         <span>Apellidos</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("lastName", { required: true })}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2">
         <span>Dirección</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("address", { required: true })}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2">
         <span>Dirección 2 (opcional)</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("address2")}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2">
         <span>Código postal</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("postalCode", { required: true })}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2">
         <span>Ciudad</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("city", { required: true })}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2">
         <span>País</span>
-        <select className="p-2 border rounded-md bg-gray-200">
+        <select {...register("country", { required: true })} className="p-2 border rounded-md bg-gray-200">
           <option value="">[ Seleccione ]</option>
           <option value="CRI">Costa Rica</option>
         </select>
@@ -45,10 +94,15 @@ export const AddressForm = () => {
 
       <div className="flex flex-col mb-2">
         <span>Teléfono</span>
-        <input type="text" className="p-2 border rounded-md bg-gray-200" />
+        <input
+          {...register("phone", { required: true })}
+          type="text"
+          className="p-2 border rounded-md bg-gray-200"
+        />
       </div>
 
       <div className="flex flex-col mb-2 sm:mt-1">
+       
         <div className="inline-flex items-center mb-10">
           <label
             className="relative flex cursor-pointer items-center rounded-full p-3"
@@ -58,7 +112,7 @@ export const AddressForm = () => {
               type="checkbox"
               className="border-gray-500 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
               id="checkbox"
-              checked
+              {...register("rememberAddress")}
             />
             <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
               <svg
@@ -79,12 +133,16 @@ export const AddressForm = () => {
           </label>
           <span>Recordar dirección?</span>
         </div>
-        <Link
-          href="/checkout"
-          className="btn-primary flex w-full sm:w-1/2 justify-center "
+        <button
+          disabled={!isValid}
+          type="submit"
+          className={clsx({
+            'btn-primary': isValid,
+            'btn-disabled': !isValid
+          })}
         >
           Siguiente
-        </Link>
+        </button>
       </div>
     </form>
   );
