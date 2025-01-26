@@ -11,7 +11,6 @@ interface State {
     postalCode: string;
     city: string;
     country: string;
-    rememberAddress: boolean;
   };
   setAddress: (address: State["address"]) => void;
 }
