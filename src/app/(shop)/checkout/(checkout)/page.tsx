@@ -1,13 +1,6 @@
 import { Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
 import Link from "next/link";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-]
+import { ProductsInCartCheckout } from "./ui/ProductsInCartCheckout";
 
 export default function CheckoutPage() {
   return (
@@ -15,7 +8,6 @@ export default function CheckoutPage() {
       <div className="flex flex-col w-[1000px]">
         <Title title="Verificar Orden" />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-
           {/* cart */}
 
           <div className="flex flex-col mt-5">
@@ -23,29 +15,9 @@ export default function CheckoutPage() {
             <Link href="/cart" className="underline mb-5">
               Editar carrito
             </Link>
-          
 
-          {/* items */}
-          {
-            productsInCart.map((product) => (
-              <div className="flex mb-5" key={product.slug}>
-                <Image
-                  src={`/products/${product.images[0]}`}
-                  alt={product.title}
-                  width={100}
-                  height={100}
-                  className="mr-5 rounded h-[100px]"
-                />
-                <div className="">
-                  <p>{ product.title }</p>
-                  <p>${ product.price.toFixed(2) } x 3</p>
-                  <p className="font-bold">Subtotal: ${product.price * 3}</p>
-
-                </div>
-              </div>
-            ))
-          }
-
+            {/* items */}
+            <ProductsInCartCheckout />
           </div>
 
           {/* checkout */}
@@ -64,7 +36,6 @@ export default function CheckoutPage() {
               <span>no. Productos</span>
               <span className="text-right">3 articulos</span>
 
-
               <span>Subtotal</span>
               <span className="text-right">$ 100</span>
 
@@ -75,22 +46,22 @@ export default function CheckoutPage() {
               <span className="text-right text-2xl mt-5">$115</span>
             </div>
             <div className="mt-5 mb-2 w-full">
-
               <p className="mb-5">
                 <span className="text-xs">
-                  Al hacer clic en &quot;Colocar orden&ldquo;, aceptas nuestros <Link href="/terms">Términos y condiciones</Link> y <Link href="/privacy">Política de privacidad</Link>.
+                  Al hacer clic en &quot;Colocar orden&ldquo;, aceptas nuestros{" "}
+                  <Link href="/terms">Términos y condiciones</Link> y{" "}
+                  <Link href="/privacy">Política de privacidad</Link>.
                 </span>
               </p>
 
               <Link
-              className="flex btn-primary justify-center"
+                className="flex btn-primary justify-center"
                 href={`/orders/123`}
               >
                 Colocar orden
               </Link>
             </div>
           </div>
-
         </div>
       </div>
     </div>
