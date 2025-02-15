@@ -37,11 +37,28 @@ export const placeOrder = async( cartProducts: ProductToOrder[], address: Addres
     const itemsInOrder = cartProducts.reduce((count, p) => count + p.quantity ,0);
 
     //totales
-    
+    const {subTotal, tax, total} = cartProducts.reduce((totals, item) => {
 
+      const productQuantity = item.quantity;
+      const product = products.find(product => product.id === item.productId);
 
+      if (!product) {
+        throw new Error(`${item.productId} no existe - 500`)
+      }
 
-    console.log({itemsInOrder, products, address, userId})
+      const subTotal = product.price * productQuantity;
+
+      totals.subTotal += subTotal;
+      totals.tax += subTotal * 0.15;
+      totals.total += subTotal * 1.15;
+
+      console.log({subTotal})
+
+      return totals;
+    }, { subTotal: 0, tax: 0, total:0 })
+
+    console.log({subTotal, tax, total, itemsInOrder})
+
   } catch (error) {
     console.log(error);
     return {
